@@ -11,3 +11,7 @@
 > - 参与进refundAdmin，退款管理中心项目
 > - 安装生产环境
 > - 补vue，element， nginx，fetch知识先
+
+1.07
+
+> - 熟悉refundAdmin项目
