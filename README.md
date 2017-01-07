@@ -15,3 +15,4 @@
 1.07
 
 > - 熟悉refundAdmin项目
+> - 尝试vue等
