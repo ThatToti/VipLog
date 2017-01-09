@@ -16,3 +16,8 @@
 
 > - 熟悉refundAdmin项目
 > - 尝试vue等
+
+1.09
+
+> - 学习vue的基础知识
+> - 熟悉refundAdmin项目的内容
