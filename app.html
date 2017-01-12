@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+
+	<!-- 
+	1.为 <ul> 添加一个类 bar
+	2.删除第 10 个 <li>
+	3.在第 13 个 <li> 后面增加一个 <li> , 其文字内容为 vipshop.com 
+	4.点击任意 <li> 弹窗显示其为当前列表中的第几项。 
+	-->
+
+	<ul id="list" class="foo">
+		<li>#0</li>
+		<li><span>#1</span></li>
+		<li>#2</li>
+		<li>#3</li>
+		<li><ul><li>#4</li><li>#5</li><li>#6</li></ul></li>
+		<li><a href="//v2ex.com">#7</a></li>
+		<li>#8</li>
+		<li>#9</li>
+		<li>#10</li>
+		<li>#11</li>
+		<li>#12</li>
+		<li>#13</li>
+		<li>#14</li>
+	</ul>
+
+	<script>
+	var util=function(){};
+	util.prototype={
+		addClass:function(ele,name){
+			var cls=name;
+			var eles=document.getElementsByTagName(ele);
+			for(var i=0;i<eles.length;i++){
+				eles[i].className = eles[i].className == '' ? cls : eles[i].className + ' ' + cls;
+			}
+			//结构中有两个ul，所以都要添加“bar”类
+		},
+		delElement:function(ele,n){
+			var target=document.getElementsByTagName(ele)[n];
+			var parent=target.parentNode;
+			parent.removeChild(target);
+			//删除第10个，但是在文档结构中，虽然标了14个#li，但是实际有15个，所以删除的实际为#9这个li
+		},
+		count:function(){
+			var ul=document.getElementById("list");
+			var aLi = ul.getElementsByTagName("li");
+			addHandler(ul,"click",function(event){
+				event=event||window.event;
+				var target=event.target||event.srcElement;
+				if(target.nodeName.toLowerCase() == "li"){
+            var that=target;
+            var index;
+
+            for(var i=0;i<aLi.length;i++)
+             	if(aLi[i]===target) index=i;
+
+            if(index>=0)alert('我的下标是第'+index+'个');
+         	}
+         	//用委托事件，减少性能消耗；点击li，所以在顶层ul委托，通过冒泡来实现，而不用遍历；
+         	//event，target对象兼容ie
+			});
+		},
+		addElement:function(n,txt){
+  			var t=document.getElementsByTagName("li");
+  			var li= document.createElement("li");
+  			li.innerHTML=txt;
+  			for (var i=0;i<t.length;i++)
+  			{
+  				var s=t[n].parentNode;
+   				if (n==-1){
+    				s.appendChild(li);
+   				}else if (i==n+1){
+    				s.insertBefore(li,t[i]);
+   				}
+			}
+			//这里直接用parentNode，不是取ul的id，因为两个ul的层级结构无法使用getElementById
+		}	
+	};
+	//操作方法写在原型里面，需要通过实例化来使用
+		
+		
+	var addHandler=function(element,type,handler){
+			if(element.addEventListener){
+				element.addEventListener(type,handler,false);
+			}else if(element.attachEvent){
+				element.attachEvent("on"+type,handler);
+			}else{
+				element["on"+type]=handler;
+			}
+	};
+	//跨浏览器事件，addEventListener是dom2，attachEvent是IE，最后一个是dom0
+
+	var loadAll=function(){
+		var a=new util();
+		a.addClass("ul","bar");
+		a.delElement("li",10);
+		a.addElement(13,"vipshop.com");
+		a.count();
+	};
+	//事件加载函数，需要在页面加载时候触发的函数，写在里面
+
+	var addLoadEvent=function(func) {
+  		var oldonload = window.onload;
+  		if (typeof window.onload != 'function') {
+    		window.onload = func;
+  		} else {
+    		window.onload = function() {
+      		oldonload();
+      		func();
+    		}
+  		}
+	};
+	//不用window.onload是因为不能复用，addLoadEvent函数可以重复使用而不会覆盖；
+
+	addLoadEvent(loadAll);
+	</script>
+
+</body>
+</html>
