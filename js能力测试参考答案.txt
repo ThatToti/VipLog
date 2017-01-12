@@ -1,0 +1,14 @@
+var $ = document.querySelector.bind(document)
+	var list  = $('#list')
+	var li = list.getElementsByTagName('li')
+	var del = li[9]
+	var addElm = li[12]
+
+	list.className = 'foo bar'
+	list.removeChild(del)
+	addElm.insertAdjacentHTML('afterEnd','<li>vipshop.com</li>')
+
+	for(var i =0, l = li.length; i < l; i++) {x(i)} 
+	function x(i){
+		li[i].onclick =function(){alert(i)} 
+	}
